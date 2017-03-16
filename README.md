@@ -149,3 +149,42 @@
 ⇒ ==履歴の書き換えが必須==
 
 Gitは履歴を書き換えてなんぼの世界！
+
+---
+
+## 使い勝手を向上させる設定
+
+---
+
+## alias の作成
+
+`git log` はそのままでは使いにくいので、graph 表示が可能なように alias を作成する
+
+```bash
+% git config --local alias.graph \
+  "log --graph --oneline --decorate=short"
+```
+
+これで `git graph` が使えるようになる
+※ 実際はもっと良い設定あり
+
+```bash
+% git graph
+
+* fe78873 (HEAD -> master, origin/master) initial commit
+```
+
+※ 今回は `--local` ですが、`--global` が便利
+
+---
+
+他にも、SVN ユーザであれば
+
+```bach
+ci => commit
+co => checkout
+```
+
+等の設定をしておくと便利。
+
+`git ci`、`git co` のように利用できる。
