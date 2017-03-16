@@ -1009,6 +1009,50 @@ test commit が書き換わっていることを確認
 ブランチを繋ぎ変え、指定の位置につなぎ直すことで整理できる
 
 ---
+<!-- *template: invert -->
+
+## rebase の実践
+
+more_docs かなり古い位置から分岐していることを確認
+
+```bash
+% git graph --all
+
+...
+* 4967a5c checkout を追加
+* 4116edf branch を追加
+| * a973eb9 (origin/more_docs, more_docs) another_doc.md を追加
+|/
+* 8ee37c5 使い勝手を向上させる設定を追加
+* de78949 Git活用のポイントを追加
+...
+```
+
+---
+<!-- *template: invert -->
+
+more_docs ブランチを master の最新に繋ぎ替える
+
+```bash
+% git checkout more_docs
+% git rebase master
+
+First, rewinding head to replay your work on top of it...
+Applying: another_doc.md を追加
+
+% git graph
+
+* a265e92 (HEAD -> more_docs) another_doc.md を追加
+* 2ef6828 (origin/master, master) 目次の整理
+* c8f2b5f github 関連を追加
+* 2ae4e41 rebase の追加
+```
+
+master の上に積まれていることを確認
+
+※ `git reset --hard origin/more_docs` で戻しておく
+
+---
 
 ## rebase (2)
 
@@ -1021,6 +1065,60 @@ test commit が書き換わっていることを確認
 コミットを進めてから typo が見つかった場合は、amend では対応できない
 
 `rebase -i` を使うことで、積み上げたコミットを並び替えたり、結合・分割したりできる
+
+---
+<!-- *template: invert -->
+
+## rebase -i の実践
+
+```bash
+% git checkout master
+% git rebase -i HEAD~4
+```
+
+エディタが開き、以下のような画面になる
+
+```text
+pick def5893 add --patch を追加
+pick 2ae4e41 rebase の追加
+pick c8f2b5f github 関連を追加
+pick 2ef6828 目次の整理
+```
+
+reword、edit、squash、fixup、等が使える
+
+順序を入れ替えることも可能
+※ conflict する可能性あり
+
+---
+<!-- *template: invert -->
+
+### reword
+
+メッセージを修正したい場合に使う
+
+### squash
+
+分割していたコミットを統合したい場合に使う
+1つ前のコミットと結合、メッセージも結合される
+
+### fixup
+
+typo などを統合したい場合に使う
+squash とほぼ同じだが、メッセージは捨てられる
+
+---
+<!-- *template: invert -->
+
+### edit
+
+1つのコミットを分割したい、間に追加で add/rm したいときに使う
+
+一旦停止するので、`reset` や `commit --amend` 等で履歴を操作する
+
+操作が完了したら、`git rebase --continue` で継続する
+
+==強力な分、ややこしい==
 
 ---
 
