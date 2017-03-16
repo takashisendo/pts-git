@@ -374,3 +374,73 @@ merge の確認
 * 8a57c36 git と diff のスライドを追加
 * 336878d initial commit
 ```
+
+---
+
+## tag
+
+tag の一覧、追加、削除等の操作
+
+```bash
+% git tag --help
+```
+
+コミットIDは覚えられないので、リリース等の重要なポイントでタグをつけておく
+
+---
+<!-- *template: invert -->
+
+## tag の実践
+
+現在のコミットに tag をつける
+
+```bash
+% git tag v1
+% git graph
+
+* 0d35716 (HEAD -> master, tag: v1) merge を追加
+* 4967a5c checkout を追加
+* 4116edf branch を追加
+...
+```
+
+---
+<!-- *template: invert -->
+
+指定のコミットに tag をつける
+
+```bash
+% git tag v0 HEAD^
+% git graph
+
+* 0d35716 (HEAD -> master, tag: v1) merge を追加
+* 4967a5c (tag: v0) checkout を追加
+* 4116edf branch を追加
+...
+```
+
+コミットIDを指定するとその場所にタグが付く
+
+- `HEAD`: 現在の場所
+- `HEAD~`: 1つ前の場所
+- `HEAD~~`: 2つ前の場所（~を複数つけられる）
+- `HEAD~3`: 3つ前の場所（~n でn個前を指定できる）
+
+---
+<!-- *template: invert -->
+
+tag を削除する
+
+```bash
+% git tag -d v0 v1
+
+Deleted tag 'v0' (was 4967a5c)
+Deleted tag 'v1' (was 0d35716)
+
+% git graph
+
+* 0d35716 (HEAD -> master) merge を追加
+* 4967a5c checkout を追加
+* 4116edf branch を追加
+...
+```
