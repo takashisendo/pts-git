@@ -576,3 +576,169 @@ Dropped refs/stash@{0} (c780a9ab1ed4b8da3fea1a8b572197b9fa5a2c77)
 復元されていることを確認
 
 ※ `git checkout README.md` で修正を破棄しておく
+
+---
+
+## reset
+
+現在位置を指定の状態にリセットする
+
+```bash
+git reset [モード] [コミットID]
+```
+
+モードは複数あるが、`--soft`、`--mixed`、`--hard` がよく使われる
+モードを省略した場合は、`--mixed` になる
+
+コミットIDを省略すると、`HEAD` になる
+
+---
+<!-- *template: invert -->
+
+## reset --soft 実践
+
+`--soft` は index 追加状態で巻き戻す
+
+事前準備：状態確認
+
+```bash
+% git graph
+
+* 82f7931 (HEAD -> master, origin/master) stash を追加
+* 19bbf33 tag を追加
+* 0d35716 merge を追加
+```
+
+---
+<!-- *template: invert -->
+
+`reset --soft` の実行
+
+```bash
+% git reset --soft HEAD~
+% git graph --all
+
+* 82f7931 (origin/master) stash を追加
+* 19bbf33 (HEAD -> master) tag を追加
+* 0d35716 merge を追加
+
+% git status
+
+On branch master
+Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        modified:   README.md
+```
+
+README.md は add された状態
+
+---
+<!-- *template: invert -->
+
+## reset --mixed 実践
+
+`--mixed` は index 未追加状態（更新ファイルは存在）で巻き戻す
+
+事前準備：pull して状態を最新に戻す
+
+```bash
+% git pull
+
+Updating 19bbf33..82f7931
+Fast-forward
+ README.md | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+
+% git graph
+
+* 82f7931 (HEAD -> master, origin/master) stash を追加
+* 19bbf33 tag を追加
+```
+
+---
+<!-- *template: invert -->
+
+`reset --mixed` の実行
+
+```bash
+% git reset --mixed HEAD~
+% git graph --all
+
+* 82f7931 (origin/master) stash を追加
+* 19bbf33 (HEAD -> master) tag を追加
+* 0d35716 merge を追加
+```
+
+---
+<!-- *template: invert -->
+
+状態確認
+
+```bash
+% git status
+
+On branch master
+Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+README.md の修正は add されていない
+
+---
+<!-- *template: invert -->
+
+## reset --hard 実践
+
+`--hard` は完全破棄した状態で巻き戻す
+
+事前準備：pull して状態を最新に戻す
+
+```bash
+% git checkout README.md
+% git pull
+
+Updating 19bbf33..82f7931
+Fast-forward
+ README.md | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+
+% git graph
+
+* 82f7931 (HEAD -> master, origin/master) stash を追加
+* 19bbf33 tag を追加
+```
+
+---
+<!-- *template: invert -->
+
+`reset --hard` の実行
+
+```bash
+% git reset --hard HEAD~
+% git graph --all
+
+* 82f7931 (origin/master) stash を追加
+* 19bbf33 (HEAD -> master) tag を追加
+* 0d35716 merge を追加
+
+% git status
+
+On branch master
+Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+nothing to commit, working tree clean
+```
+
+ローカルの修正がないことを確認
+
+※ `git pull` して最新にしておく
