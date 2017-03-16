@@ -323,3 +323,54 @@ Switched to a new branch 'test'
 ```
 
 ブランチ名(master) は省略可能、省略した場合は現在位置(HEAD)が使われる
+
+---
+
+## merge
+
+別のブランチの内容を現在のブランチに取り込む
+
+```bash
+% git merge --help
+```
+
+---
+<!-- *template: invert -->
+
+## merge の実践
+
+別のブランチの内容を現在のブランチに取り込む
+
+```bash
+% git checkout master
+% git merge more_docs
+
+Merge made by the 'recursive' strategy.
+ another_doc.md | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 another_doc.md
+```
+
+※ ブランチが分岐していない場合は FastForward になる
+
+---
+<!-- *template: invert -->
+
+merge の確認
+
+```bash
+% git graph
+
+*   fcc71ea (HEAD -> master) Merge branch 'more_docs'
+|\
+| * a973eb9 (origin/more_docs, more_docs) another_doc.md を追加
+* | 4967a5c checkout を追加
+* | 4116edf branch を追加
+|/
+* 8ee37c5 (origin/master) 使い勝手を向上させる設定を追加
+* de78949 Git活用のポイントを追加
+* bd1ba42 ローカルとリモートの図を追加
+* bd7a8a9 バージョン管理の歴史を追加
+* 8a57c36 git と diff のスライドを追加
+* 336878d initial commit
+```
