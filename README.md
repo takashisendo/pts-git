@@ -274,3 +274,52 @@ Deleted branch example (was 8ee37c5).
 * master
   more_docs
 ```
+
+---
+
+## checkout
+
+ブランチを切り替えたり作業ツリーを復元する
+
+```bash
+% git checkout --help
+```
+
+---
+<!-- *template: invert -->
+
+## checkout の実践
+
+作業ツリーを指定ブランチに切り替える
+
+```bash
+% git checkout more_docs
+
+Switched to branch 'more_docs'
+Your branch is up-to-date with 'origin/more_docs'.
+
+% git branch
+
+  master
+* more_docs
+  test
+```
+
+---
+<!-- *template: invert -->
+
+新しいブランチを作成して切り替える
+
+```bash
+% git checkout master -b test
+
+Switched to a new branch 'test'
+
+% git branch
+
+  master
+  more_docs
+* test
+```
+
+ブランチ名(master) は省略可能、省略した場合は現在位置(HEAD)が使われる
