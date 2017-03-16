@@ -444,3 +444,135 @@ Deleted tag 'v1' (was 0d35716)
 * 4116edf branch を追加
 ...
 ```
+
+---
+
+## 作業を効率的に<br>行うための操作
+
+---
+
+## stash
+
+未コミットの作業内容を一時的に保管・復元する
+
+stash = 隠す、しまう
+
+```bash
+% git stash --help
+```
+
+ブランチAで作業中、ブランチBで別作業が必要になった（緊急対応等）
+ブランチAでの作業が途中、コミットしたくない
+
+⇒ stash で途中の状態を出し入れする
+
+---
+<!-- *template: invert -->
+
+## stash の実践
+
+master ブランチで README.md を編集・保存
+
+```bash
+% git status
+
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+未コミットの差分がある状態
+
+---
+<!-- *template: invert -->
+
+stash 実行
+
+```bash
+% git stash
+
+Saved working directory and index state WIP on master: 19bbf33 tag を追加
+HEAD is now at 19bbf33 tag を追加
+```
+
+status 確認
+
+```bash
+% git status
+
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working tree clean
+```
+
+修正がなくなっている
+
+---
+<!-- *template: invert -->
+
+stash 確認
+
+```bash
+% git stash list
+
+stash@{0}: WIP on master: 19bbf33 tag を追加
+
+% git stash show
+
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+---
+<!-- *template: invert -->
+
+git show で中身も確認できる
+
+```diff
+% git show stash@{0}
+
+...
+    WIP on master: 19bbf33 tag を追加
+
+diff --cc README.md
+index c5d478f,c5d478f..fbee71b
+--- a/README.md
++++ b/README.md
+@@@ -1,6 -1,6 +1,6 @@@
+  <!-- $theme: gaia -->
+
+--# チーム開発を変える<br>Gitの徹底活用法
+++# チーム開発を変える<br>Gitの徹底活用法！
+
+  #### 3/16 Pasona Tech セミナー
+```
+
+---
+<!-- *template: invert -->
+
+stash の復元
+
+```bash
+% git stash pop
+
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (c780a9ab1ed4b8da3fea1a8b572197b9fa5a2c77)
+```
+
+復元されていることを確認
+
+※ `git checkout README.md` で修正を破棄しておく
