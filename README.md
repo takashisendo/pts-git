@@ -838,6 +838,86 @@ HEAD is now at 438871e test commit
 
 ## チーム開発を円滑に<br>行うための操作
 
+#### 意味のあるコミットを作成する
+
+---
+
+## add --patch
+
+インデックスへの部分的な追加
+
+```bash
+% git add --patch
+% git add -p
+```
+
+開発が乗っていると、対象の修正以上の作業をしてしまうことが多々ある
+
+「コミットしたいが、したくない部分もある」に対応できる
+
+hunk というコードの塊単位でコミット対象にするかしないかを選べる
+
+---
+<!-- *template: invert -->
+
+## add --patch の実践
+
+master で README.md を複数箇所編集・保存
+
+```bash
+% git add -p
+
+diff --git a/README.md b/README.md
+index 8069b01..6f004a3 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+ <!-- $theme: gaia -->
+
+-# チーム開発を変える<br>Gitの徹底活用法
++# チーム開発を変える<br>Gitの徹底活用法！
+
+ #### 3/16 Pasona Tech セミナー
+
+Stage this hunk [y,n,q,a,d,/,j,J,g,e,?]?
+```
+
+---
+<!-- *template: invert -->
+
+入力待ちになるので、「?」を入れてみる
+
+```text
+y - stage this hunk
+n - do not stage this hunk
+q - quit; do not stage this hunk or any of the remaining ones
+a - stage this hunk and all later hunks in the file
+d - do not stage this hunk or any of the later hunks in the file
+g - select a hunk to go to
+/ - search for a hunk matching the given regex
+j - leave this hunk undecided, see next undecided hunk
+J - leave this hunk undecided, see next hunk
+k - leave this hunk undecided, see previous undecided hunk
+K - leave this hunk undecided, see previous hunk
+s - split the current hunk into smaller hunks
+e - manually edit the current hunk
+? - print help
+...
+```
+
+いろいろ操作できる！
+
+---
+<!-- *template: invert -->
+
+## add --path を基本にする
+
+commit すべきかどうかの確認も兼ねている
+
+add するときは基本的に `-p` をつけることを意識した方が良い
+
+※ 新規ファイルは出てこないので注意
+
 ---
 
 ## commit --amend
@@ -855,8 +935,8 @@ HEAD is now at 438871e test commit
 % git commit -m 'ファイル追加漏れ'
 ```
 
-こんなコミットは恥ずかしい。まさに黒歴史。。
-不要なコミットは極力作らない
+こんなコミットは恥ずかしい
+不要なものは極力作らない
 
 ---
 <!-- *template: invert -->
