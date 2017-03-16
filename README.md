@@ -742,3 +742,94 @@ nothing to commit, working tree clean
 ローカルの修正がないことを確認
 
 ※ `git pull` して最新にしておく
+
+---
+
+## reflog
+
+困ったときの魔法の杖
+
+git の作業履歴は逐一記録が取られている
+⇒見えないコミットとして扱われている
+
+```bash
+git reflog
+```
+
+間違ってブランチを削除した、reset した等、「やっちまった」を==なかったコト==にする
+
+実際に巻き戻す際は `reset --hard` を使う
+
+---
+<!-- *template: invert -->
+
+## regflog 実践
+
+master ブランチで README.md を編集・保存
+
+```bash
+% git add README.md
+% git commit -m 'test commit'
+% git graph
+
+* 438871e (HEAD -> master) test commit
+* a0888b6 (origin/master) reset を追加
+* 82f7931 stash を追加
+```
+
+master が origin/master より1つ進んだ状態になる
+
+---
+<!-- *template: invert -->
+
+`reset --hard` 実行
+
+```bash
+% git reset --hard HEAD~
+% git graph
+
+* a0888b6 (HEAD -> master, origin/master) reset を追加
+* 82f7931 stash を追加
+* 19bbf33 tag を追加
+...
+```
+
+test commit が消えてしまったことを確認
+
+---
+<!-- *template: invert -->
+
+reflog 実行
+
+```bash
+% git reflog
+
+a0888b6 HEAD@{0}: reset: moving to HEAD~
+438871e HEAD@{1}: commit: test commit
+a0888b6 HEAD@{2}: commit: reset を追加
+...
+```
+
+test commit が見えることを確認
+他にもこれまでの操作が残っていることがわかる
+
+---
+<!-- *template: invert -->
+
+reflog のコミットID で `reset --hard` 実行
+
+```bash
+% git reset --hard HEAD@{1}
+
+HEAD is now at 438871e test commit
+
+% git graph
+
+* 438871e (HEAD -> master) test commit
+* a0888b6 (origin/master) reset を追加
+* 82f7931 stash を追加
+```
+
+消えたコミットが復活していることを確認
+
+※ `git reset --hard HEAD~` で test commit を削除しておく
