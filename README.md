@@ -188,3 +188,89 @@ co => checkout
 等の設定をしておくと便利。
 
 `git ci`、`git co` のように利用できる。
+
+---
+
+## ブランチ操作をマスターする
+
+---
+
+## branch
+
+ブランチの一覧、作成、削除等の操作を行う
+
+```bash
+% git branch --help
+```
+
+---
+<!-- *template: invert -->
+
+## branch 操作の実践
+
+ブランチ一覧を見る（ローカルのみ）
+
+```bash
+% git branch
+
+* master
+```
+
+ブランチ一覧を見る（リモート込み）
+
+```bash
+% git branch -a
+
+* master
+  remotes/origin/master
+```
+
+---
+<!-- *template: invert -->
+
+現在位置でブランチを作成する
+
+```bash
+% git branch test
+% git branch
+
+* master
+  more_docs
+  test
+
+% git graph
+
+* 8ee37c5 (HEAD -> master, origin/master, test) 使い勝手を向上させる設定を追加
+* de78949 Git活用のポイントを追加
+* bd1ba42 ローカルとリモートの図を追加
+* bd7a8a9 バージョン管理の歴史を追加
+* 8a57c36 git と diff のスライドを追加
+* 336878d initial commit
+```
+
+---
+<!-- *template: invert -->
+
+ブランチをリネームする
+
+```bash
+% git branch -m test example
+% git branch
+
+  example
+* master
+  more_docs
+```
+
+ブランチを削除する
+
+```bash
+% git branch -d example
+
+Deleted branch example (was 8ee37c5).
+
+% git branch
+
+* master
+  more_docs
+```
