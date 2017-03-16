@@ -833,3 +833,67 @@ HEAD is now at 438871e test commit
 消えたコミットが復活していることを確認
 
 ※ `git reset --hard HEAD~` で test commit を削除しておく
+
+---
+
+## チーム開発を円滑に<br>行うための操作
+
+---
+
+## commit --amend
+
+直前のコミットに対して修正を加える
+
+```bash
+% git commit --amend
+```
+
+追加漏れや typo など、直前のコミットをやり直したいことは多々ある
+
+```bash
+% git commit -m 'スペルミス修正'
+% git commit -m 'ファイル追加漏れ'
+```
+
+こんなコミットは恥ずかしい。まさに黒歴史。。
+不要なコミットは極力作らない
+
+---
+<!-- *template: invert -->
+
+## commit --amend の実践
+
+master ブランチで README.md を編集・保存
+
+```bash
+% git add README.md
+% git commit -m 'test commit'
+% git graph
+
+* 06a555f (HEAD -> master) test commit
+* 041b910 (origin/master) reflog を追加
+* a0888b6 reset を追加
+```
+
+test commit のコミットIDを覚えておく
+
+---
+<!-- *template: invert -->
+
+typo が見つかった想定で、修正を加える
+
+```bash
+% git add README.md
+% git commit --amend -C HEAD
+% git graph
+
+* 60b739e (HEAD -> master) test commit
+* 041b910 (origin/master) reflog を追加
+* a0888b6 reset を追加
+```
+
+test commit が書き換わっていることを確認
+
+`git show` で見てもOK
+
+※ `git reset --hard HEAD~` で test commit を削除しておく
